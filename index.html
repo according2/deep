@@ -2,54 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
     <title>Deeplink Test</title>
 
     <style>
         /* ================================================================
-           VERCEL DESIGN TOKENS — Native Flat (Refined)
+           GITHUB DESIGN THEME — Light
            ================================================================ */
         :root {
-            --vercel-bg: #ffffff;
-            --vercel-bg-secondary: #fafafa;
-            --vercel-bg-tertiary: #f5f5f5;
-            --vercel-bg-inverse: #0a0a0a;
+            --gh-bg: #f6f8fa;
+            --gh-bg-white: #ffffff;
+            --gh-border: #d0d7de;
+            --gh-border-hover: #b0b8c4;
 
-            --vercel-text: #0a0a0a;
-            --vercel-text-secondary: #666666;
-            --vercel-text-tertiary: #888888;
-            --vercel-text-inverse: #ffffff;
+            --gh-text-primary: #24292f;
+            --gh-text-secondary: #57606a;
+            --gh-text-tertiary: #8b949e;
 
-            --vercel-border: #eaeaea;
-            --vercel-border-hover: #cccccc;
+            --gh-btn-primary-bg: #2da44e;
+            --gh-btn-primary-bg-hover: #22863a;
+            --gh-btn-primary-border: #2da44e;
+            --gh-btn-primary-text: #ffffff;
 
-            --vercel-green: #0a6b4a;
-            --vercel-green-light: #eaf5f0;
-            --vercel-green-dark: #064d34;
-            --vercel-blue: #0070f3;
-            --vercel-blue-dark: #005bb5;
+            --gh-btn-secondary-bg: #f6f8fa;
+            --gh-btn-secondary-border: #d0d7de;
+            --gh-btn-secondary-text: #24292f;
+            --gh-btn-secondary-hover-bg: #f3f4f6;
 
-            --vercel-radius: 8px;
-            --vercel-radius-lg: 12px;
-            --vercel-radius-full: 9999px;
+            --gh-link-color: #0969da;
+
+            --gh-radius: 6px;
+            --gh-radius-lg: 6px;
+            --gh-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 
             --vercel-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             --vercel-font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
 
-            --vercel-space-1: 4px;
-            --vercel-space-2: 8px;
-            --vercel-space-3: 12px;
-            --vercel-space-4: 16px;
-            --vercel-space-5: 24px;
-            --vercel-space-6: 32px;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 24px;
+            --space-6: 32px;
 
-            --vercel-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-            --vercel-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-
-            --vercel-transition: 0.15s ease;
-
-            --app-safe-top: env(safe-area-inset-top, 0px);
-            --app-safe-bottom: env(safe-area-inset-bottom, 0px);
+            --app-max-width: 720px;
         }
 
         /* ---------- Reset ---------- */
@@ -69,32 +65,31 @@
 
         body {
             font-family: var(--vercel-font);
-            background: var(--vercel-bg-secondary);
-            color: var(--vercel-text);
+            background: var(--gh-bg);
+            color: var(--gh-text-primary);
             line-height: 1.5;
             min-height: 100vh;
             min-height: 100dvh;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-3);
+            margin: 0;
         }
 
         /* ---------- App Shell ---------- */
         #app {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            min-height: 100dvh;
-            max-width: 560px;
-            margin: 0 auto;
-            background: var(--vercel-bg);
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.02);
-            position: relative;
-        }
-
-        .status-bar {
-            height: var(--app-safe-top);
-            background: var(--vercel-bg);
-            flex-shrink: 0;
+            width: 100%;
+            max-width: var(--app-max-width);
+            background: var(--gh-bg-white);
+            border-radius: var(--gh-radius-lg);
+            border: 1px solid var(--gh-border);
+            box-shadow: var(--gh-shadow);
+            overflow: hidden;
+            min-height: 80vh;
+            max-height: 95vh;
         }
 
         /* ---------- Nav ---------- */
@@ -102,27 +97,26 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: var(--vercel-space-3) var(--vercel-space-4);
-            border-bottom: 1px solid var(--vercel-border);
-            background: var(--vercel-bg);
-            position: sticky;
-            top: 0;
-            z-index: 50;
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--gh-border);
+            background: var(--gh-bg-white);
+            flex-shrink: 0;
         }
 
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: var(--vercel-space-2);
+            gap: var(--space-2);
             font-weight: 600;
-            font-size: 1.05rem;
+            font-size: 1rem;
+            color: var(--gh-text-primary);
         }
 
         .nav-brand .mark {
             width: 28px;
             height: 28px;
-            background: var(--vercel-green);
-            border-radius: var(--vercel-radius);
+            background: var(--gh-btn-primary-bg);
+            border-radius: var(--gh-radius);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -135,19 +129,18 @@
         /* ---------- Main content ---------- */
         .content {
             flex: 1;
-            padding: var(--vercel-space-4);
+            padding: var(--space-4);
             display: flex;
             flex-direction: column;
-            gap: var(--vercel-space-4);
+            gap: var(--space-4);
             overflow-y: auto;
         }
 
         .card {
-            background: var(--vercel-bg);
-            border: 1px solid var(--vercel-border);
-            border-radius: var(--vercel-radius-lg);
-            padding: var(--vercel-space-4);
-            box-shadow: var(--vercel-shadow);
+            background: var(--gh-bg-white);
+            border: 1px solid var(--gh-border);
+            border-radius: var(--gh-radius);
+            padding: var(--space-4);
         }
 
         .section-label {
@@ -155,18 +148,18 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.6px;
-            color: var(--vercel-text-tertiary);
-            margin-bottom: var(--vercel-space-3);
+            color: var(--gh-text-secondary);
+            margin-bottom: var(--space-3);
             display: flex;
             align-items: center;
-            gap: var(--vercel-space-2);
+            gap: var(--space-2);
         }
 
         .section-label::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: var(--vercel-border);
+            background: var(--gh-border);
         }
 
         /* ---------- Buttons ---------- */
@@ -174,23 +167,24 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: var(--vercel-space-2);
-            padding: var(--vercel-space-3) var(--vercel-space-4);
-            border: 1px solid var(--vercel-border);
-            border-radius: var(--vercel-radius);
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--gh-border);
+            border-radius: var(--gh-radius);
             font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all var(--vercel-transition);
-            background: var(--vercel-bg);
-            color: var(--vercel-text);
+            transition: all 0.15s ease;
+            background: var(--gh-bg-white);
+            color: var(--gh-text-primary);
             text-decoration: none;
             width: 100%;
+            min-height: 36px;
         }
 
         .btn:hover {
-            border-color: var(--vercel-border-hover);
-            background: var(--vercel-bg-tertiary);
+            border-color: var(--gh-border-hover);
+            background: var(--gh-btn-secondary-hover-bg);
         }
 
         .btn:active {
@@ -198,47 +192,48 @@
         }
 
         .btn-primary {
-            background: var(--vercel-green);
-            border-color: var(--vercel-green);
-            color: white;
+            background: var(--gh-btn-primary-bg);
+            border-color: var(--gh-btn-primary-border);
+            color: var(--gh-btn-primary-text);
         }
 
         .btn-primary:hover {
-            background: var(--vercel-green-dark);
-            border-color: var(--vercel-green-dark);
+            background: var(--gh-btn-primary-bg-hover);
+            border-color: var(--gh-btn-primary-bg-hover);
             color: white;
         }
 
-        .btn-blue {
-            background: var(--vercel-blue);
-            border-color: var(--vercel-blue);
-            color: white;
+        .btn-secondary {
+            background: var(--gh-btn-secondary-bg);
+            border-color: var(--gh-btn-secondary-border);
+            color: var(--gh-btn-secondary-text);
         }
 
-        .btn-blue:hover {
-            background: var(--vercel-blue-dark);
-            border-color: var(--vercel-blue-dark);
-            color: white;
+        .btn-secondary:hover {
+            background: var(--gh-btn-secondary-hover-bg);
+            border-color: var(--gh-border-hover);
         }
 
         .btn-outline {
             background: transparent;
-            border-color: var(--vercel-border);
-            color: var(--vercel-text);
+            border-color: var(--gh-border);
+            color: var(--gh-text-secondary);
         }
 
         .btn-outline:hover {
-            background: var(--vercel-bg-tertiary);
+            background: var(--gh-bg);
+            border-color: var(--gh-border-hover);
         }
 
         .btn:disabled {
-            opacity: 0.4;
+            opacity: 0.5;
             pointer-events: none;
         }
 
         .btn-sm {
-            padding: var(--vercel-space-2) var(--vercel-space-3);
+            padding: var(--space-1) var(--space-3);
             font-size: 0.75rem;
+            min-height: 28px;
             width: auto;
             flex-shrink: 0;
         }
@@ -246,43 +241,43 @@
         /* ---------- Upload section ---------- */
         .upload-zone {
             position: relative;
-            border: 2px dashed var(--vercel-border);
-            border-radius: var(--vercel-radius-lg);
-            padding: var(--vercel-space-3) var(--vercel-space-3);
+            border: 2px dashed var(--gh-border);
+            border-radius: var(--gh-radius);
+            padding: var(--space-3) var(--space-3);
             text-align: center;
             cursor: pointer;
-            transition: all var(--vercel-transition);
-            background: var(--vercel-bg-secondary);
+            transition: all 0.15s ease;
+            background: var(--gh-bg);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: var(--vercel-space-1);
+            gap: var(--space-1);
             min-height: 100px;
         }
 
         .upload-zone:hover,
         .upload-zone.dragover {
-            border-color: var(--vercel-green);
-            background: var(--vercel-green-light);
+            border-color: var(--gh-link-color);
+            background: #f0f6ff;
         }
 
         .upload-zone .icon-svg {
             width: 32px;
             height: 32px;
-            color: var(--vercel-text-tertiary);
+            color: var(--gh-text-tertiary);
             flex-shrink: 0;
         }
 
         .upload-zone .title {
             font-size: 0.85rem;
             font-weight: 500;
-            color: var(--vercel-text);
+            color: var(--gh-text-primary);
         }
 
         .upload-zone .hint {
             font-size: 0.7rem;
-            color: var(--vercel-text-tertiary);
+            color: var(--gh-text-tertiary);
         }
 
         #fileInput {
@@ -292,12 +287,12 @@
         .upload-preview {
             display: none;
             align-items: center;
-            gap: var(--vercel-space-3);
-            padding: var(--vercel-space-2) var(--vercel-space-3);
-            background: var(--vercel-bg-secondary);
-            border-radius: var(--vercel-radius);
-            border: 1px solid var(--vercel-border);
-            margin-top: var(--vercel-space-3);
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            background: var(--gh-bg);
+            border-radius: var(--gh-radius);
+            border: 1px solid var(--gh-border);
+            margin-top: var(--space-3);
         }
 
         .upload-preview.visible {
@@ -307,9 +302,9 @@
         .upload-preview .thumb {
             width: 40px;
             height: 40px;
-            border-radius: var(--vercel-radius);
+            border-radius: var(--gh-radius);
             overflow: hidden;
-            border: 1px solid var(--vercel-border);
+            border: 1px solid var(--gh-border);
             background: white;
             flex-shrink: 0;
         }
@@ -331,11 +326,12 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--gh-text-primary);
         }
 
         .upload-preview .size {
             font-size: 0.65rem;
-            color: var(--vercel-text-tertiary);
+            color: var(--gh-text-tertiary);
         }
 
         .clear-btn {
@@ -343,25 +339,25 @@
             border: none;
             font-size: 1.1rem;
             cursor: pointer;
-            color: var(--vercel-text-tertiary);
-            padding: var(--vercel-space-1);
+            color: var(--gh-text-tertiary);
+            padding: var(--space-1);
             line-height: 1;
-            transition: color var(--vercel-transition);
+            transition: color 0.15s ease;
         }
 
         .clear-btn:hover {
-            color: var(--vercel-text);
+            color: var(--gh-text-primary);
         }
 
         /* ---------- Parsed Data ---------- */
         .data-line {
             display: none;
             align-items: center;
-            gap: var(--vercel-space-3);
-            padding: var(--vercel-space-2) var(--vercel-space-3);
-            background: var(--vercel-bg-secondary);
-            border-radius: var(--vercel-radius);
-            border: 1px solid var(--vercel-border);
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            background: var(--gh-bg);
+            border-radius: var(--gh-radius);
+            border: 1px solid var(--gh-border);
             font-size: 0.75rem;
             font-family: var(--vercel-font-mono);
             word-break: break-all;
@@ -374,7 +370,7 @@
         .data-line .value {
             flex: 1;
             min-width: 0;
-            color: var(--vercel-text-secondary);
+            color: var(--gh-text-secondary);
             line-height: 1.6;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -382,7 +378,7 @@
         }
 
         .data-line .value .link {
-            color: var(--vercel-green);
+            color: var(--gh-link-color);
             text-decoration: underline;
             text-underline-offset: 2px;
         }
@@ -390,7 +386,7 @@
         /* ---------- Actions ---------- */
         .action-row {
             display: flex;
-            gap: var(--vercel-space-3);
+            gap: var(--space-3);
             flex-wrap: wrap;
         }
 
@@ -409,16 +405,17 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--vercel-bg-inverse);
-            color: var(--vercel-text-inverse);
-            padding: var(--vercel-space-2) var(--vercel-space-4);
-            border-radius: var(--vercel-radius-full);
+            background: #1f2328;
+            color: #ffffff;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--gh-radius-full);
             font-size: 0.8rem;
             font-weight: 500;
             opacity: 0;
             transition: all 0.3s ease;
             pointer-events: none;
             z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .toast.visible {
@@ -426,12 +423,58 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        @media (min-width: 600px) {
+        /* ========== RESPONSIVE: DESKTOP ========== */
+        @media (min-width: 768px) {
+            :root {
+                --app-max-width: 800px;
+            }
+
+            body {
+                padding: var(--space-5);
+            }
+
             #app {
-                border-radius: var(--vercel-radius-lg);
-                margin-top: var(--vercel-space-5);
-                margin-bottom: var(--vercel-space-5);
-                box-shadow: var(--vercel-shadow-md), 0 0 0 1px rgba(0, 0, 0, 0.02);
+                border-radius: var(--gh-radius-lg);
+                min-height: auto;
+                max-height: 90vh;
+            }
+
+            .content {
+                padding: var(--space-5);
+                gap: var(--space-5);
+            }
+
+            .card {
+                padding: var(--space-5);
+            }
+
+            .upload-zone {
+                min-height: 130px;
+                padding: var(--space-4);
+            }
+
+            .action-row .btn {
+                flex: 0 1 auto;
+                min-width: 140px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            :root {
+                --app-max-width: 960px;
+            }
+
+            .content {
+                padding: var(--space-6);
+                gap: var(--space-6);
+            }
+
+            .card {
+                padding: var(--space-6);
+            }
+
+            .upload-zone {
+                min-height: 160px;
             }
         }
     </style>
@@ -439,7 +482,6 @@
 <body>
 
     <div id="app">
-        <div class="status-bar"></div>
         <nav class="nav">
             <div class="nav-brand">
                 <span class="mark">◆</span>
@@ -453,10 +495,10 @@
             <div class="card">
                 <div class="section-label">Generate MMQR</div>
                 <div class="action-row">
-                    <button class="btn btn-primary" onclick="window.open('https://sandbox-motax.momoney.com.mm', '_blank')">
+                    <button class="btn btn-secondary" onclick="window.open('https://sandbox-motax.momoney.com.mm', '_blank')">
                         Sandbox
                     </button>
-                    <button class="btn btn-blue" onclick="window.open('https://live-payment.mopayments.com.mm', '_blank')">
+                    <button class="btn btn-primary" onclick="window.open('https://live-motax.momoney.com.mm/home', '_blank')">
                         Live
                     </button>
                 </div>
@@ -493,7 +535,7 @@
                     <button class="btn btn-outline btn-sm" id="copyBtn">Copy</button>
                 </div>
 
-                <div class="action-row" style="margin-top: var(--vercel-space-3);">
+                <div class="action-row" style="margin-top: var(--space-3);">
                     <button class="btn btn-primary" id="openBtn" disabled>Open MoMoney</button>
                 </div>
             </div>
