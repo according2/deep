@@ -126,6 +126,29 @@
             flex-shrink: 0;
         }
 
+        .icon-btn {
+            background: none;
+            border: none;
+            padding: var(--space-2);
+            cursor: pointer;
+            color: var(--gh-text-secondary);
+            border-radius: var(--gh-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .icon-btn:hover {
+            background: var(--gh-bg);
+            color: var(--gh-text-primary);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
         /* ---------- Main content ---------- */
         .content {
             flex: 1;
@@ -236,6 +259,18 @@
             min-height: 28px;
             width: auto;
             flex-shrink: 0;
+        }
+
+        .btn-icon {
+            padding: var(--space-1) var(--space-2);
+            min-height: 28px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .btn-icon svg {
+            width: 16px;
+            height: 16px;
         }
 
         /* ---------- Upload section ---------- */
@@ -353,7 +388,7 @@
         .data-line {
             display: none;
             align-items: center;
-            gap: var(--space-3);
+            gap: var(--space-2);
             padding: var(--space-2) var(--space-3);
             background: var(--gh-bg);
             border-radius: var(--gh-radius);
@@ -361,6 +396,7 @@
             font-size: 0.75rem;
             font-family: var(--vercel-font-mono);
             word-break: break-all;
+            flex-wrap: wrap;
         }
 
         .data-line.visible {
@@ -369,7 +405,7 @@
 
         .data-line .value {
             flex: 1;
-            min-width: 0;
+            min-width: 120px;
             color: var(--gh-text-secondary);
             line-height: 1.6;
             overflow: hidden;
@@ -383,6 +419,12 @@
             text-underline-offset: 2px;
         }
 
+        .data-line .actions {
+            display: flex;
+            gap: var(--space-1);
+            flex-shrink: 0;
+        }
+
         /* ---------- Actions ---------- */
         .action-row {
             display: flex;
@@ -393,10 +435,6 @@
         .action-row .btn {
             flex: 1;
             min-width: 100px;
-        }
-
-        .action-row .btn-sm {
-            flex: 0 0 auto;
         }
 
         /* ---------- Toast ---------- */
@@ -423,36 +461,261 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* ========== RESPONSIVE: DESKTOP ========== */
+        /* ---------- Modals ---------- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--gh-bg-white);
+            border-radius: var(--gh-radius-lg);
+            border: 1px solid var(--gh-border);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            animation: modalSlideIn 0.2s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4) var(--space-5);
+            border-bottom: 1px solid var(--gh-border);
+            flex-shrink: 0;
+        }
+
+        .modal-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            color: var(--gh-text-tertiary);
+            padding: 0 var(--space-2);
+            transition: color 0.15s ease;
+        }
+
+        .modal-header .close-btn:hover {
+            color: var(--gh-text-primary);
+        }
+
+        .modal-body {
+            padding: var(--space-4) var(--space-5);
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: var(--space-4) var(--space-5);
+            border-top: 1px solid var(--gh-border);
+            flex-shrink: 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-3);
+        }
+
+        .modal-footer .btn {
+            width: auto;
+            min-width: 100px;
+        }
+
+        /* Edit Modal */
+        .edit-textarea {
+            width: 100%;
+            padding: var(--space-3);
+            border: 1px solid var(--gh-border);
+            border-radius: var(--gh-radius);
+            font-family: var(--vercel-font-mono);
+            font-size: 0.85rem;
+            resize: vertical;
+            min-height: 80px;
+            color: var(--gh-text-primary);
+            background: var(--gh-bg-white);
+            transition: border-color 0.15s ease;
+        }
+
+        .edit-textarea:focus {
+            outline: none;
+            border-color: var(--gh-link-color);
+            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+        }
+
+        .modal-toolbar {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        .modal-toolbar .btn {
+            width: auto;
+            min-width: 60px;
+        }
+
+        /* Settings Modal */
+        .settings-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .settings-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--gh-text-primary);
+        }
+
+        .settings-group .hint {
+            font-size: 0.75rem;
+            color: var(--gh-text-tertiary);
+            margin-top: var(--space-1);
+        }
+
+        .prefix-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            margin-bottom: var(--space-3);
+        }
+
+        .prefix-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--gh-border);
+            border-radius: var(--gh-radius);
+            background: var(--gh-bg);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .prefix-item:hover {
+            border-color: var(--gh-border-hover);
+            background: var(--gh-btn-secondary-hover-bg);
+        }
+
+        .prefix-item.active {
+            border-color: var(--gh-link-color);
+            background: #f0f6ff;
+        }
+
+        .prefix-item input[type="radio"] {
+            accent-color: var(--gh-link-color);
+            flex-shrink: 0;
+        }
+
+        .prefix-item .prefix-text {
+            flex: 1;
+            font-family: var(--vercel-font-mono);
+            font-size: 0.85rem;
+            color: var(--gh-text-primary);
+        }
+
+        .prefix-item .delete-prefix {
+            background: none;
+            border: none;
+            color: var(--gh-text-tertiary);
+            cursor: pointer;
+            padding: var(--space-1);
+            border-radius: var(--gh-radius);
+            transition: all 0.15s ease;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        .prefix-item .delete-prefix:hover {
+            color: #cf222e;
+            background: #ffebe9;
+        }
+
+        .input-group {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .input-group input[type="text"] {
+            flex: 1;
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--gh-border);
+            border-radius: var(--gh-radius);
+            font-size: 0.875rem;
+            color: var(--gh-text-primary);
+            background: var(--gh-bg-white);
+            transition: border-color 0.15s ease;
+            min-width: 0;
+        }
+
+        .input-group input[type="text"]:focus {
+            outline: none;
+            border-color: var(--gh-link-color);
+            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+        }
+
+        .input-group .btn {
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        /* ---------- Responsive ---------- */
         @media (min-width: 768px) {
             :root {
                 --app-max-width: 800px;
             }
-
             body {
                 padding: var(--space-5);
             }
-
             #app {
                 border-radius: var(--gh-radius-lg);
                 min-height: auto;
                 max-height: 90vh;
             }
-
             .content {
                 padding: var(--space-5);
                 gap: var(--space-5);
             }
-
             .card {
                 padding: var(--space-5);
             }
-
             .upload-zone {
                 min-height: 130px;
                 padding: var(--space-4);
             }
-
             .action-row .btn {
                 flex: 0 1 auto;
                 min-width: 140px;
@@ -463,18 +726,45 @@
             :root {
                 --app-max-width: 960px;
             }
-
             .content {
                 padding: var(--space-6);
                 gap: var(--space-6);
             }
-
             .card {
                 padding: var(--space-6);
             }
-
             .upload-zone {
                 min-height: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .data-line {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .data-line .value {
+                white-space: normal;
+                word-break: break-all;
+            }
+            .data-line .actions {
+                justify-content: flex-end;
+            }
+            .modal-content {
+                max-height: 90vh;
+            }
+            .modal-body {
+                padding: var(--space-3);
+            }
+            .modal-header,
+            .modal-footer {
+                padding: var(--space-3);
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            .input-group .btn {
+                width: 100%;
             }
         }
     </style>
@@ -487,6 +777,12 @@
                 <span class="mark">◆</span>
                 <span>Deeplink Test</span>
             </div>
+            <button class="icon-btn" id="settingsBtn" aria-label="Settings">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+            </button>
         </nav>
 
         <main class="content">
@@ -495,14 +791,13 @@
             <div class="card">
                 <div class="section-label">Generate MMQR</div>
                 <div class="action-row">
-                    <!-- Sandbox: native clickable link -->
                     <a class="btn btn-secondary" href="https://sandbox-motax.momoney.com.mm" target="_blank" rel="noopener noreferrer">
                         Sandbox
                     </a>
-                    <!-- Production: points directly to the final destination (no redirect) -->
-                    <a class="btn btn-primary" href="https://live-payment.mopayments.com.mm/" target="_blank" rel="noopener noreferrer">
+                    <!-- PROD button: copy URL + open new tab -->
+                    <button class="btn btn-primary" id="prodBtn">
                         Live
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -534,7 +829,19 @@
                 <div class="section-label">Parsed Payload</div>
                 <div class="data-line visible" id="dataLine">
                     <span class="value" id="dataValue">—</span>
-                    <button class="btn btn-outline btn-sm" id="copyBtn">Copy</button>
+                    <div class="actions">
+                        <button class="btn btn-outline btn-sm btn-icon" id="copyBtn" aria-label="Copy link">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/>
+                                <path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-outline btn-sm btn-icon" id="editBtn" aria-label="Edit link">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M11.013 1.427a1.75 1.75 0 0 1 2.474 0l1.086 1.086a1.75 1.75 0 0 1 0 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 0 1-.927-.928l.929-3.25a1.75 1.75 0 0 1 .445-.758L11.013 1.427ZM2.5 10.144l6.821-6.821 2.356 2.356L4.856 12.5 2.5 10.144Zm8.823-7.165a.25.25 0 0 0-.354 0l-1.432 1.432 2.356 2.356 1.432-1.432a.25.25 0 0 0 0-.354l-2.002-2.002Z"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="action-row" style="margin-top: var(--space-3);">
@@ -545,45 +852,242 @@
         </main>
     </div>
 
+    <!-- ========== EDIT MODAL ========== -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Deeplink</h3>
+                <button class="close-btn" id="closeEditModalBtn" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <textarea class="edit-textarea" id="editLinkInput" spellcheck="false"></textarea>
+                <div class="modal-toolbar">
+                    <button class="btn btn-secondary btn-sm" id="selectAllBtn">Select All</button>
+                    <button class="btn btn-secondary btn-sm" id="copyTextBtn">Copy</button>
+                    <button class="btn btn-secondary btn-sm" id="pasteTextBtn">Paste</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="saveEditBtn">Save &amp; Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SETTINGS MODAL ========== -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button class="close-btn" id="closeSettingsModalBtn" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <label>Active Prefix</label>
+                    <div class="prefix-list" id="prefixList">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    <div class="hint">Selected prefix will be applied to the QR data.</div>
+                </div>
+                <div class="settings-group">
+                    <label>Add Custom Prefix</label>
+                    <div class="input-group">
+                        <input type="text" id="newPrefixInput" placeholder="e.g., momoney://home?" />
+                        <button class="btn btn-primary" id="addPrefixBtn">Add</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="saveSettingsBtn">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
         (function() {
             'use strict';
 
-            const dropZone = document.getElementById('dropZone');
-            const fileInput = document.getElementById('fileInput');
-            const uploadPreview = document.getElementById('uploadPreview');
-            const previewImage = document.getElementById('previewImage');
-            const fileName = document.getElementById('fileName');
-            const fileSize = document.getElementById('fileSize');
-            const clearUploadBtn = document.getElementById('clearUploadBtn');
-            const dataContainer = document.getElementById('dataContainer');
-            const dataValue = document.getElementById('dataValue');
-            const openBtn = document.getElementById('openBtn');
-            const copyBtn = document.getElementById('copyBtn');
-            const toast = document.getElementById('toast');
+            // ========== DOM refs ==========
+            const $ = (id) => document.getElementById(id);
+            const dropZone = $('dropZone');
+            const fileInput = $('fileInput');
+            const uploadPreview = $('uploadPreview');
+            const previewImage = $('previewImage');
+            const fileName = $('fileName');
+            const fileSize = $('fileSize');
+            const clearUploadBtn = $('clearUploadBtn');
+            const dataContainer = $('dataContainer');
+            const dataValue = $('dataValue');
+            const openBtn = $('openBtn');
+            const copyBtn = $('copyBtn');
+            const editBtn = $('editBtn');
+            const settingsBtn = $('settingsBtn');
+            const prodBtn = $('prodBtn');
+            const toast = $('toast');
 
-            let currentQRData = '';
-            let momoneyLink = '';
+            // Edit modal
+            const editModal = $('editModal');
+            const editLinkInput = $('editLinkInput');
+            const closeEditModalBtn = $('closeEditModalBtn');
+            const saveEditBtn = $('saveEditBtn');
+            const selectAllBtn = $('selectAllBtn');
+            const copyTextBtn = $('copyTextBtn');
+            const pasteTextBtn = $('pasteTextBtn');
+
+            // Settings modal
+            const settingsModal = $('settingsModal');
+            const closeSettingsModalBtn = $('closeSettingsModalBtn');
+            const saveSettingsBtn = $('saveSettingsBtn');
+            const prefixList = $('prefixList');
+            const newPrefixInput = $('newPrefixInput');
+            const addPrefixBtn = $('addPrefixBtn');
+
+            // ========== State ==========
+            let currentQRData = ''; // raw decoded data
+            let displayLink = ''; // full link shown to user / used to open
+            let settings = {
+                prefixes: ['momoney://?qrcode='],
+                selected: 'momoney://?qrcode='
+            };
+
+            // ========== Toast ==========
+            let toastTimer = null;
 
             function showToast(msg, duration = 2000) {
                 toast.textContent = msg;
                 toast.classList.add('visible');
-                clearTimeout(toast._timer);
-                toast._timer = setTimeout(() => toast.classList.remove('visible'), duration);
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => toast.classList.remove('visible'), duration);
             }
 
+            // ========== File size formatting ==========
             function formatFileSize(bytes) {
                 if (bytes < 1024) return bytes + ' B';
                 if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
                 return (bytes / 1048576).toFixed(1) + ' MB';
             }
 
-            function buildMoMoneyLink(qrData) {
-                return qrData ? `momoney://?qrcode=${encodeURIComponent(qrData)}` : '';
+            // ========== Settings ==========
+            function loadSettings() {
+                try {
+                    const stored = localStorage.getItem('deeplink_settings');
+                    if (stored) {
+                        const parsed = JSON.parse(stored);
+                        settings.prefixes = parsed.prefixes || ['momoney://?qrcode='];
+                        settings.selected = parsed.selected || 'momoney://?qrcode=';
+                        // Ensure selected exists in prefixes
+                        if (!settings.prefixes.includes(settings.selected)) {
+                            settings.selected = settings.prefixes[0] || 'momoney://?qrcode=';
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Failed to load settings', e);
+                }
             }
 
+            function saveSettingsToStorage() {
+                try {
+                    localStorage.setItem('deeplink_settings', JSON.stringify(settings));
+                } catch (e) {
+                    console.warn('Failed to save settings', e);
+                }
+            }
+
+            function renderPrefixList() {
+                prefixList.innerHTML = '';
+                settings.prefixes.forEach((prefix, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'prefix-item' + (prefix === settings.selected ? ' active' : '');
+
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = 'prefixSelect';
+                    radio.value = prefix;
+                    radio.checked = prefix === settings.selected;
+                    radio.addEventListener('change', function() {
+                        if (this.checked) {
+                            settings.selected = this.value;
+                            renderPrefixList();
+                        }
+                    });
+
+                    const span = document.createElement('span');
+                    span.className = 'prefix-text';
+                    span.textContent = prefix;
+
+                    div.appendChild(radio);
+                    div.appendChild(span);
+
+                    // Delete button (only for custom prefixes)
+                    if (index > 0) {
+                        const delBtn = document.createElement('button');
+                        delBtn.className = 'delete-prefix';
+                        delBtn.innerHTML = '×';
+                        delBtn.setAttribute('aria-label', 'Delete prefix');
+                        delBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            if (settings.prefixes.length <= 1) {
+                                showToast('Cannot delete the last prefix', 1200);
+                                return;
+                            }
+                            settings.prefixes = settings.prefixes.filter(p => p !== prefix);
+                            if (settings.selected === prefix) {
+                                settings.selected = settings.prefixes[0];
+                            }
+                            renderPrefixList();
+                            saveSettingsToStorage();
+                            applyPrefixToLink();
+                            showToast('Prefix deleted', 800);
+                        });
+                        div.appendChild(delBtn);
+                    }
+
+                    prefixList.appendChild(div);
+                });
+            }
+
+            function addPrefix() {
+                const val = newPrefixInput.value.trim();
+                if (!val) {
+                    showToast('Please enter a prefix', 1200);
+                    return;
+                }
+                if (settings.prefixes.includes(val)) {
+                    showToast('Prefix already exists', 1200);
+                    return;
+                }
+                settings.prefixes.push(val);
+                settings.selected = val;
+                renderPrefixList();
+                saveSettingsToStorage();
+                applyPrefixToLink();
+                newPrefixInput.value = '';
+                showToast('Prefix added and selected', 1200);
+            }
+
+            // ========== Link management ==========
+            function applyPrefixToLink() {
+                if (currentQRData) {
+                    displayLink = settings.selected + encodeURIComponent(currentQRData);
+                    updateUILink();
+                } else {
+                    displayLink = '';
+                }
+            }
+
+            function updateUILink() {
+                if (displayLink) {
+                    dataValue.innerHTML = `<span class="link">${displayLink}</span>`;
+                    dataContainer.style.display = 'block';
+                    openBtn.disabled = false;
+                } else {
+                    dataContainer.style.display = 'none';
+                    openBtn.disabled = true;
+                }
+            }
+
+            // ========== QR Parsing ==========
             async function parseQR(file) {
                 if (!file) return;
 
@@ -605,13 +1109,7 @@
                 try {
                     const qrText = await extractQRFromImage(file);
                     currentQRData = qrText || `Fallback_${file.name}`;
-                    momoneyLink = buildMoMoneyLink(currentQRData);
-
-                    // Show only the momoney link as a single line
-                    dataValue.innerHTML = `<span class="link">${momoneyLink}</span>`;
-
-                    dataContainer.style.display = 'block';
-                    openBtn.disabled = false;
+                    applyPrefixToLink();
                     showToast(qrText ? 'QR decoded successfully' : 'Fallback data used', 1500);
                 } catch (err) {
                     showToast('Error parsing QR', 1500);
@@ -643,20 +1141,21 @@
                 });
             }
 
+            // ========== Open MoMoney ==========
             function openMoMoney() {
-                if (!momoneyLink) return showToast('No link generated', 1200);
-                window.location.href = momoneyLink;
+                if (!displayLink) return showToast('No link generated', 1200);
+                window.location.href = displayLink;
                 showToast('Opening MoMoney…', 1000);
             }
 
+            // ========== Copy ==========
             function copyLink() {
-                if (!momoneyLink) return showToast('No link to copy', 1200);
-                navigator.clipboard.writeText(momoneyLink).then(() => {
+                if (!displayLink) return showToast('No link to copy', 1200);
+                navigator.clipboard.writeText(displayLink).then(() => {
                     showToast('Copied!', 1200);
                 }).catch(() => {
-                    // fallback
                     const textarea = document.createElement('textarea');
-                    textarea.value = momoneyLink;
+                    textarea.value = displayLink;
                     document.body.appendChild(textarea);
                     textarea.select();
                     document.execCommand('copy');
@@ -665,17 +1164,115 @@
                 });
             }
 
+            // ========== PROD button handler ==========
+            function handleProdClick() {
+                const url = 'https://live-motax.momoney.com.mm/home';
+                // Copy to clipboard
+                navigator.clipboard.writeText(url).then(() => {
+                    showToast('URL copied to clipboard!', 1500);
+                }).catch(() => {
+                    // fallback
+                    const textarea = document.createElement('textarea');
+                    textarea.value = url;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showToast('URL copied to clipboard!', 1500);
+                });
+                // Open new tab
+                window.open(url, '_blank');
+            }
+
+            // ========== Edit Modal ==========
+            function openEditModal() {
+                if (!displayLink) return showToast('No link to edit', 1200);
+                editLinkInput.value = displayLink;
+                editModal.classList.add('active');
+                editLinkInput.focus();
+                editLinkInput.select();
+            }
+
+            function closeEditModal() {
+                editModal.classList.remove('active');
+            }
+
+            function saveEditedLink() {
+                const newLink = editLinkInput.value.trim();
+                if (!newLink) {
+                    showToast('Link cannot be empty', 1200);
+                    return;
+                }
+                displayLink = newLink;
+                updateUILink();
+                closeEditModal();
+                showToast('Link updated', 1000);
+            }
+
+            // ========== Settings Modal ==========
+            function openSettingsModal() {
+                renderPrefixList();
+                settingsModal.classList.add('active');
+            }
+
+            function closeSettingsModal() {
+                settingsModal.classList.remove('active');
+            }
+
+            function saveSettings() {
+                // selected is already updated via radio buttons
+                saveSettingsToStorage();
+                applyPrefixToLink();
+                closeSettingsModal();
+                showToast('Settings saved', 1000);
+            }
+
+            // ========== Clear upload ==========
             function clearUpload() {
                 fileInput.value = '';
                 uploadPreview.classList.remove('visible');
                 dataContainer.style.display = 'none';
                 currentQRData = '';
-                momoneyLink = '';
+                displayLink = '';
                 openBtn.disabled = true;
                 showToast('Cleared', 800);
             }
 
-            // Events
+            // ========== Modal helpers ==========
+            function selectAllText() {
+                editLinkInput.select();
+            }
+
+            function copyText() {
+                const val = editLinkInput.value;
+                if (!val) return showToast('Nothing to copy', 800);
+                navigator.clipboard.writeText(val).then(() => {
+                    showToast('Copied!', 1000);
+                }).catch(() => {
+                    editLinkInput.select();
+                    document.execCommand('copy');
+                    showToast('Copied!', 1000);
+                });
+            }
+
+            function pasteText() {
+                navigator.clipboard.readText().then(text => {
+                    if (text) {
+                        const start = editLinkInput.selectionStart;
+                        const end = editLinkInput.selectionEnd;
+                        const val = editLinkInput.value;
+                        editLinkInput.value = val.substring(0, start) + text + val.substring(end);
+                        editLinkInput.focus();
+                        editLinkInput.selectionStart = editLinkInput.selectionEnd = start + text.length;
+                    }
+                }).catch(() => {
+                    showToast('Unable to paste. Please use Ctrl+V', 1200);
+                });
+            }
+
+            // ========== Event Listeners ==========
+
+            // Upload
             dropZone.addEventListener('click', () => fileInput.click());
             dropZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
@@ -690,14 +1287,64 @@
                     parseQR(e.dataTransfer.files[0]);
                 }
             });
-
             fileInput.addEventListener('change', () => {
                 if (fileInput.files.length > 0) parseQR(fileInput.files[0]);
             });
-
             clearUploadBtn.addEventListener('click', clearUpload);
+
+            // Actions
             openBtn.addEventListener('click', openMoMoney);
             copyBtn.addEventListener('click', copyLink);
+            editBtn.addEventListener('click', openEditModal);
+
+            // PROD button
+            prodBtn.addEventListener('click', handleProdClick);
+
+            // Settings
+            settingsBtn.addEventListener('click', openSettingsModal);
+            closeSettingsModalBtn.addEventListener('click', closeSettingsModal);
+            saveSettingsBtn.addEventListener('click', saveSettings);
+            addPrefixBtn.addEventListener('click', addPrefix);
+            newPrefixInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') addPrefix();
+            });
+
+            // Edit modal
+            closeEditModalBtn.addEventListener('click', closeEditModal);
+            saveEditBtn.addEventListener('click', saveEditedLink);
+            selectAllBtn.addEventListener('click', selectAllText);
+            copyTextBtn.addEventListener('click', copyText);
+            pasteTextBtn.addEventListener('click', pasteText);
+
+            // Close modals on backdrop click
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (editModal.classList.contains('active')) closeEditModal();
+                    if (settingsModal.classList.contains('active')) closeSettingsModal();
+                }
+                // Ctrl+A in edit modal
+                if (e.key === 'a' && (e.ctrlKey || e.metaKey) && editModal.classList.contains('active')) {
+                    e.preventDefault();
+                    selectAllText();
+                }
+            });
+
+            // ========== Init ==========
+            loadSettings();
+            renderPrefixList();
+
+            console.log('Deeplink Test ready.');
+            console.log('Settings:', settings);
+
         })();
     </script>
 </body>
