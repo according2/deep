@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Deeplink Test</title>
+
+    <style>
+        /* ================================================================
+           VERCEL DESIGN TOKENS — Native Flat (Refined)
+           ================================================================ */
+        :root {
+            --vercel-bg: #ffffff;
+            --vercel-bg-secondary: #fafafa;
+            --vercel-bg-tertiary: #f5f5f5;
+            --vercel-bg-inverse: #0a0a0a;
+
+            --vercel-text: #0a0a0a;
+            --vercel-text-secondary: #666666;
+            --vercel-text-tertiary: #888888;
+            --vercel-text-inverse: #ffffff;
+
+            --vercel-border: #eaeaea;
+            --vercel-border-hover: #cccccc;
+
+            --vercel-green: #0a6b4a;
+            --vercel-green-light: #eaf5f0;
+            --vercel-green-dark: #064d34;
+            --vercel-blue: #0070f3;
+            --vercel-blue-dark: #005bb5;
+
+            --vercel-radius: 8px;
+            --vercel-radius-lg: 12px;
+            --vercel-radius-full: 9999px;
+
+            --vercel-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --vercel-font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+
+            --vercel-space-1: 4px;
+            --vercel-space-2: 8px;
+            --vercel-space-3: 12px;
+            --vercel-space-4: 16px;
+            --vercel-space-5: 24px;
+            --vercel-space-6: 32px;
+
+            --vercel-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            --vercel-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+            --vercel-transition: 0.15s ease;
+
+            --app-safe-top: env(safe-area-inset-top, 0px);
+            --app-safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        /* ---------- Reset ---------- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--vercel-font);
+            background: var(--vercel-bg-secondary);
+            color: var(--vercel-text);
+            line-height: 1.5;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---------- App Shell ---------- */
+        #app {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100dvh;
+            max-width: 560px;
+            margin: 0 auto;
+            background: var(--vercel-bg);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.02);
+            position: relative;
+        }
+
+        .status-bar {
+            height: var(--app-safe-top);
+            background: var(--vercel-bg);
+            flex-shrink: 0;
+        }
+
+        /* ---------- Nav ---------- */
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--vercel-space-3) var(--vercel-space-4);
+            border-bottom: 1px solid var(--vercel-border);
+            background: var(--vercel-bg);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--vercel-space-2);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .nav-brand .mark {
+            width: 28px;
+            height: 28px;
+            background: var(--vercel-green);
+            border-radius: var(--vercel-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        /* ---------- Main content ---------- */
+        .content {
+            flex: 1;
+            padding: var(--vercel-space-4);
+            display: flex;
+            flex-direction: column;
+            gap: var(--vercel-space-4);
+            overflow-y: auto;
+        }
+
+        .card {
+            background: var(--vercel-bg);
+            border: 1px solid var(--vercel-border);
+            border-radius: var(--vercel-radius-lg);
+            padding: var(--vercel-space-4);
+            box-shadow: var(--vercel-shadow);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--vercel-text-tertiary);
+            margin-bottom: var(--vercel-space-3);
+            display: flex;
+            align-items: center;
+            gap: var(--vercel-space-2);
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--vercel-border);
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--vercel-space-2);
+            padding: var(--vercel-space-3) var(--vercel-space-4);
+            border: 1px solid var(--vercel-border);
+            border-radius: var(--vercel-radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--vercel-transition);
+            background: var(--vercel-bg);
+            color: var(--vercel-text);
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .btn:hover {
+            border-color: var(--vercel-border-hover);
+            background: var(--vercel-bg-tertiary);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: var(--vercel-green);
+            border-color: var(--vercel-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--vercel-green-dark);
+            border-color: var(--vercel-green-dark);
+            color: white;
+        }
+
+        .btn-blue {
+            background: var(--vercel-blue);
+            border-color: var(--vercel-blue);
+            color: white;
+        }
+
+        .btn-blue:hover {
+            background: var(--vercel-blue-dark);
+            border-color: var(--vercel-blue-dark);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: var(--vercel-border);
+            color: var(--vercel-text);
+        }
+
+        .btn-outline:hover {
+            background: var(--vercel-bg-tertiary);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .btn-sm {
+            padding: var(--vercel-space-2) var(--vercel-space-3);
+            font-size: 0.75rem;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        /* ---------- Upload section ---------- */
+        .upload-zone {
+            position: relative;
+            border: 2px dashed var(--vercel-border);
+            border-radius: var(--vercel-radius-lg);
+            padding: var(--vercel-space-3) var(--vercel-space-3);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--vercel-transition);
+            background: var(--vercel-bg-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--vercel-space-1);
+            min-height: 100px;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--vercel-green);
+            background: var(--vercel-green-light);
+        }
+
+        .upload-zone .icon-svg {
+            width: 32px;
+            height: 32px;
+            color: var(--vercel-text-tertiary);
+            flex-shrink: 0;
+        }
+
+        .upload-zone .title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--vercel-text);
+        }
+
+        .upload-zone .hint {
+            font-size: 0.7rem;
+            color: var(--vercel-text-tertiary);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .upload-preview {
+            display: none;
+            align-items: center;
+            gap: var(--vercel-space-3);
+            padding: var(--vercel-space-2) var(--vercel-space-3);
+            background: var(--vercel-bg-secondary);
+            border-radius: var(--vercel-radius);
+            border: 1px solid var(--vercel-border);
+            margin-top: var(--vercel-space-3);
+        }
+
+        .upload-preview.visible {
+            display: flex;
+        }
+
+        .upload-preview .thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--vercel-radius);
+            overflow: hidden;
+            border: 1px solid var(--vercel-border);
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .upload-preview .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-preview .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .upload-preview .name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .upload-preview .size {
+            font-size: 0.65rem;
+            color: var(--vercel-text-tertiary);
+        }
+
+        .clear-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--vercel-text-tertiary);
+            padding: var(--vercel-space-1);
+            line-height: 1;
+            transition: color var(--vercel-transition);
+        }
+
+        .clear-btn:hover {
+            color: var(--vercel-text);
+        }
+
+        /* ---------- Parsed Data ---------- */
+        .data-line {
+            display: none;
+            align-items: center;
+            gap: var(--vercel-space-3);
+            padding: var(--vercel-space-2) var(--vercel-space-3);
+            background: var(--vercel-bg-secondary);
+            border-radius: var(--vercel-radius);
+            border: 1px solid var(--vercel-border);
+            font-size: 0.75rem;
+            font-family: var(--vercel-font-mono);
+            word-break: break-all;
+        }
+
+        .data-line.visible {
+            display: flex;
+        }
+
+        .data-line .value {
+            flex: 1;
+            min-width: 0;
+            color: var(--vercel-text-secondary);
+            line-height: 1.6;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .data-line .value .link {
+            color: var(--vercel-green);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        /* ---------- Actions ---------- */
+        .action-row {
+            display: flex;
+            gap: var(--vercel-space-3);
+            flex-wrap: wrap;
+        }
+
+        .action-row .btn {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .action-row .btn-sm {
+            flex: 0 0 auto;
+        }
+
+        /* ---------- Toast ---------- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--vercel-bg-inverse);
+            color: var(--vercel-text-inverse);
+            padding: var(--vercel-space-2) var(--vercel-space-4);
+            border-radius: var(--vercel-radius-full);
+            font-size: 0.8rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (min-width: 600px) {
+            #app {
+                border-radius: var(--vercel-radius-lg);
+                margin-top: var(--vercel-space-5);
+                margin-bottom: var(--vercel-space-5);
+                box-shadow: var(--vercel-shadow-md), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div class="status-bar"></div>
+        <nav class="nav">
+            <div class="nav-brand">
+                <span class="mark">◆</span>
+                <span>Deeplink Test</span>
+            </div>
+        </nav>
+
+        <main class="content">
+
+            <!-- ========== MOPAYMENT PORTALS ========== -->
+            <div class="card">
+                <div class="section-label">Generate MMQR</div>
+                <div class="action-row">
+                    <button class="btn btn-primary" onclick="window.open('https://sandbox-motax.momoney.com.mm', '_blank')">
+                        Sandbox
+                    </button>
+                    <button class="btn btn-blue" onclick="window.open('https://live-payment.mopayments.com.mm', '_blank')">
+                        Live
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========== UPLOAD & PARSE QR ========== -->
+            <div class="card">
+                <div class="section-label">Scan / Upload QR</div>
+                <div class="upload-zone" id="dropZone" role="button" tabindex="0">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                        <circle cx="12" cy="13" r="4" />
+                    </svg>
+                    <div class="title">Tap or drag QR image</div>
+                    <div class="hint">PNG, JPG, or WEBP</div>
+                    <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" />
+                </div>
+
+                <div class="upload-preview" id="uploadPreview">
+                    <div class="thumb"><img id="previewImage" src="#" alt="preview" /></div>
+                    <div class="info">
+                        <div class="name" id="fileName">file.png</div>
+                        <div class="size" id="fileSize">—</div>
+                    </div>
+                    <button class="clear-btn" id="clearUploadBtn" aria-label="Remove">×</button>
+                </div>
+            </div>
+
+            <!-- ========== PARSED DATA ========== -->
+            <div id="dataContainer" style="display: none;">
+                <div class="section-label">Parsed Payload</div>
+                <div class="data-line visible" id="dataLine">
+                    <span class="value" id="dataValue">—</span>
+                    <button class="btn btn-outline btn-sm" id="copyBtn">Copy</button>
+                </div>
+
+                <div class="action-row" style="margin-top: var(--vercel-space-3);">
+                    <button class="btn btn-primary" id="openBtn" disabled>Open MoMoney</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const uploadPreview = document.getElementById('uploadPreview');
+            const previewImage = document.getElementById('previewImage');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const clearUploadBtn = document.getElementById('clearUploadBtn');
+            const dataContainer = document.getElementById('dataContainer');
+            const dataValue = document.getElementById('dataValue');
+            const openBtn = document.getElementById('openBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const toast = document.getElementById('toast');
+
+            let currentQRData = '';
+            let momoneyLink = '';
+
+            function showToast(msg, duration = 2000) {
+                toast.textContent = msg;
+                toast.classList.add('visible');
+                clearTimeout(toast._timer);
+                toast._timer = setTimeout(() => toast.classList.remove('visible'), duration);
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes < 1024) return bytes + ' B';
+                if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+                return (bytes / 1048576).toFixed(1) + ' MB';
+            }
+
+            function buildMoMoneyLink(qrData) {
+                return qrData ? `momoney://?qrcode=${encodeURIComponent(qrData)}` : '';
+            }
+
+            async function parseQR(file) {
+                if (!file) return;
+
+                const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
+                if (!validTypes.includes(file.type)) {
+                    showToast('Please upload PNG, JPG, or WEBP', 1500);
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    fileName.textContent = file.name.length > 25 ? file.name.slice(0, 22) + '…' : file.name;
+                    fileSize.textContent = formatFileSize(file.size);
+                    uploadPreview.classList.add('visible');
+                };
+                reader.readAsDataURL(file);
+
+                try {
+                    const qrText = await extractQRFromImage(file);
+                    currentQRData = qrText || `Fallback_${file.name}`;
+                    momoneyLink = buildMoMoneyLink(currentQRData);
+
+                    // Show only the momoney link as a single line
+                    dataValue.innerHTML = `<span class="link">${momoneyLink}</span>`;
+
+                    dataContainer.style.display = 'block';
+                    openBtn.disabled = false;
+                    showToast(qrText ? 'QR decoded successfully' : 'Fallback data used', 1500);
+                } catch (err) {
+                    showToast('Error parsing QR', 1500);
+                }
+            }
+
+            function extractQRFromImage(file) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    const objectURL = URL.createObjectURL(file);
+
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
+
+                        if ('BarcodeDetector' in window) {
+                            const detector = new BarcodeDetector({ formats: ['qr_code'] });
+                            detector.detect(canvas)
+                                .then(barcodes => resolve(barcodes.length > 0 ? barcodes[0].rawValue : null))
+                                .catch(() => resolve(null));
+                        } else {
+                            resolve(null);
+                        }
+                    };
+                    img.src = objectURL;
+                });
+            }
+
+            function openMoMoney() {
+                if (!momoneyLink) return showToast('No link generated', 1200);
+                window.location.href = momoneyLink;
+                showToast('Opening MoMoney…', 1000);
+            }
+
+            function copyLink() {
+                if (!momoneyLink) return showToast('No link to copy', 1200);
+                navigator.clipboard.writeText(momoneyLink).then(() => {
+                    showToast('Copied!', 1200);
+                }).catch(() => {
+                    // fallback
+                    const textarea = document.createElement('textarea');
+                    textarea.value = momoneyLink;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showToast('Copied!', 1200);
+                });
+            }
+
+            function clearUpload() {
+                fileInput.value = '';
+                uploadPreview.classList.remove('visible');
+                dataContainer.style.display = 'none';
+                currentQRData = '';
+                momoneyLink = '';
+                openBtn.disabled = true;
+                showToast('Cleared', 800);
+            }
+
+            // Events
+            dropZone.addEventListener('click', () => fileInput.click());
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    parseQR(e.dataTransfer.files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) parseQR(fileInput.files[0]);
+            });
+
+            clearUploadBtn.addEventListener('click', clearUpload);
+            openBtn.addEventListener('click', openMoMoney);
+            copyBtn.addEventListener('click', copyLink);
+        })();
+    </script>
+</body>
+</html>
