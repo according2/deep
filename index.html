@@ -162,7 +162,7 @@
             background: var(--gh-border);
         }
 
-        /* ---------- Buttons ---------- */
+        /* ---------- Buttons / Links ---------- */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -408,7 +408,7 @@
             background: #1f2328;
             color: #ffffff;
             padding: var(--space-2) var(--space-4);
-            border-radius: var(--gh-radius-full);
+            border-radius: var(--gh-radius);
             font-size: 0.8rem;
             font-weight: 500;
             opacity: 0;
@@ -495,12 +495,14 @@
             <div class="card">
                 <div class="section-label">Generate MMQR</div>
                 <div class="action-row">
-                    <button class="btn btn-secondary" onclick="window.open('https://sandbox-motax.momoney.com.mm', '_blank')">
+                    <!-- Sandbox: native clickable link -->
+                    <a class="btn btn-secondary" href="https://sandbox-motax.momoney.com.mm" target="_blank" rel="noopener noreferrer">
                         Sandbox
-                    </button>
-                    <button class="btn btn-primary" onclick="window.open('https://live-motax.momoney.com.mm/home', '_blank')">
+                    </a>
+                    <!-- Production: points directly to the final destination (no redirect) -->
+                    <a class="btn btn-primary" href="https://live-payment.mopayments.com.mm/" target="_blank" rel="noopener noreferrer">
                         Live
-                    </button>
+                    </a>
                 </div>
             </div>
 
